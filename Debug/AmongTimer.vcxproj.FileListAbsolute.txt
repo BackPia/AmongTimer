@@ -1,0 +1,2 @@
+C:\Users\baek\source\repos\AmongTimer\Debug\AmongTimer.exe
+C:\Users\baek\source\repos\AmongTimer\Debug\AmongTimer.pdb
