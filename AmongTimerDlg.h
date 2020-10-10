@@ -17,6 +17,10 @@ public:
 	enum { IDD = IDD_AMONGTIMER_DIALOG };
 #endif
 
+private:
+	int SideTimer;
+	BOOL SideTimerPause;
+
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 지원입니다.
 
@@ -30,4 +34,15 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedBtStart();
+	afx_msg void OnBnClickedBtTimer();
+	afx_msg void OnBnClickedBtTimerTime();
+	afx_msg void OnTimer(UINT_PTR nIDEvent);
+
+	int SetSideTimer(int Time);
+	int GetSideTimer(void);
+	BOOL SetSideTimerPause(BOOL check);
+	BOOL GetSideTimerPause(void);
+	CButton mBT_Timer_time;
 };

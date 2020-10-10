@@ -13,6 +13,7 @@
 #define new DEBUG_NEW
 #endif
 
+#define SIDETIMER 1001
 
 // CAmongTimerDlg 대화 상자
 
@@ -27,12 +28,37 @@ CAmongTimerDlg::CAmongTimerDlg(CWnd* pParent /*=nullptr*/)
 void CAmongTimerDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_BT_TIMER_TIME, mBT_Timer_time);
 }
 
 BEGIN_MESSAGE_MAP(CAmongTimerDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BT_START, &CAmongTimerDlg::OnBnClickedBtStart)
+	ON_BN_CLICKED(IDC_BT_TIMER, &CAmongTimerDlg::OnBnClickedBtTimer)
+	ON_BN_CLICKED(IDC_BT_TIMER_TIME, &CAmongTimerDlg::OnBnClickedBtTimerTime)
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
+
+// CAmongTimerDlg Class 구현
+int CAmongTimerDlg::SetSideTimer(int Time)
+{
+	this->SideTimer = Time;
+	return Time;
+}
+int CAmongTimerDlg::GetSideTimer(void)
+{
+	return this->SideTimer;
+}
+BOOL CAmongTimerDlg::SetSideTimerPause(BOOL check)
+{
+	this->SideTimerPause = check;
+	return check;
+}
+BOOL CAmongTimerDlg::GetSideTimerPause(void)
+{
+	return this->SideTimerPause;
+}
 
 
 // CAmongTimerDlg 메시지 처리기
@@ -87,3 +113,49 @@ HCURSOR CAmongTimerDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CAmongTimerDlg::OnBnClickedBtStart()
+{
+	
+}
+
+
+void CAmongTimerDlg::OnBnClickedBtTimer()
+{
+	this->SetSideTimer(0);
+	this->SetSideTimerPause(FALSE);
+	SetTimer(SIDETIMER, 100, NULL);
+}
+
+
+void CAmongTimerDlg::OnBnClickedBtTimerTime()
+{
+	if (this->GetSideTimerPause())
+	{
+		this->SetSideTimerPause(FALSE);
+		SetTimer(SIDETIMER, 100, NULL);
+	}
+	else
+	{
+		this->SetSideTimerPause(TRUE);
+		KillTimer(SIDETIMER);
+	}
+}
+
+
+void CAmongTimerDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	CDialogEx::OnTimer(nIDEvent);
+	switch (nIDEvent)
+	{
+	case SIDETIMER:
+		CString str;
+		int Time;
+		Time = this->SetSideTimer(this->GetSideTimer() + 1);
+		str.Format(_T("%.1fs"), ((float)Time)/10);
+		mBT_Timer_time.SetWindowTextW(str);
+		break;
+	}
+}
