@@ -6,6 +6,7 @@
 #include "framework.h"
 #include "AmongTimer.h"
 #include "AmongTimerDlg.h"
+#include "Tools.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
